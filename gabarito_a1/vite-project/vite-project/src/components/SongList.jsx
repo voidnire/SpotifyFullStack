@@ -1,17 +1,26 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { SongItem } from "../components/SongItem";
+import SongItem from "./SongItem";
+import { useState } from "react";
 
-const SongList = () => {
+const SongList = ({ songsArray }) => {
+  const [items, setItems] = useState(5);
+
   return (
     <div className="song-list">
-      <Link to="/song/1">
-        <SongItem />
-        <SongItem />
-        <SongItem />
-        <SongItem />
-        <SongItem />
-      </Link>
+      {songsArray
+        .filter((currentValue, index) => index < items)
+        .map((currentSongObj, index) => (
+          <SongItem {...currentSongObj} index={index} key={index} />
+        ))}
+
+      <p
+        className="song-list__see-more"
+        onClick={() => {
+          setItems(items + 5);
+        }}
+      >
+        Ver mais
+      </p>
     </div>
   );
 };
