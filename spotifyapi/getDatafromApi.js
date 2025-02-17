@@ -3,108 +3,200 @@ import { artistsArray } from "../front-end/src/assets/database/artists.js";
 import axios from "axios";
 import fs from "fs";
 
-const testtoken =
-  "BQAKHNxZJz_7ubm3p4wZQCBZvAEbNZ2uuCWYk_7DckLRflTkKr7k6eQvHu9FimkLlI3zVKOpTgEZjR2S84yr8MHxhUiQBCXBurdxDn2k8ImMhMS6xcbkeWhnav5HX5tFHeK-WpwEQO4";
-
 const client_id = "93e500cd865a497d90d4daf5df74ffc9";
 const client_secret = "6d02c91d5e044f98b5f9dc410c5efe93";
 
-const newSongsArray = songsArray.map((currentSongObj) => {
-  const newSongObj = { ...currentSongObj };
-  delete newSongObj.id;
-  delete newSongObj.duration;
-  newSongObj.image = "";
-  newSongObj.audio = "";
-  return newSongObj;
-});
-
+// 🔹 Função para obter o token do Spotify
 async function getSpotifyToken() {
-  const response = await axios.post(
-    "https://accounts.spotify.com/api/token",
-    "grant_type=client_credentials",
-    {
-      headers: {
-        Authorization:
-          "Basic " +
-          Buffer.from(client_id + ":" + client_secret).toString("base64"),
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    }
-  );
-  return response.data.access_token;
+  try {
+    const response = await axios.post(
+      "https://accounts.spotify.com/api/token",
+      "grant_type=client_credentials",
+      {
+        headers: {
+          Authorization:
+            "Basic " +
+            Buffer.from(client_id + ":" + client_secret).toString("base64"),
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+    return response.data.access_token;
+  } catch (error) {
+    console.error("❌ Erro ao obter token do Spotify:", error);
+    return null;
+  }
 }
 
-export async function getTrackDetails(trackName, artistName, token) {
-  try {
-    const query = `${trackName} artist:${artistName}`; // Busca combinando música e artista
+function cleanSongsArray() {
+  const uniqueSongs = new Map();
+  const cleanedArray = [];
 
+  songsArray.forEach((song) => {
+    if (!uniqueSongs.has(song.name) && !uniqueSongs.has(song.id)) {
+      uniqueSongs.set(song.name, true);
+      uniqueSongs.set(song.id, true);
+      cleanedArray.push(song);
+    }
+  });
+
+  // Reatribuir IDs sequenciais
+  const newsongsArray = cleanedArray.map((song, index) => ({
+    ...song,
+    id: index + 1,
+  }));
+  return newsongsArray;
+}
+
+// 🔹 Função para buscar capa do álbum
+async function getAlbumCover(trackName, artistName, token) {
+  try {
+    const query = `${trackName} artist:${artistName}`;
     const response = await axios.get(
       `https://api.spotify.com/v1/search?q=${encodeURIComponent(
         query
       )}&type=track&limit=1`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    // Pegando o primeiro item da resposta
     const track = response.data.tracks.items[0];
+    if (!track) {
+      console.log(
+        `⚠️ Música "${trackName}" de "${artistName}" não encontrada.`
+      );
+      return null;
+    }
+
+    return track.album.images[0]?.url || null;
+  } catch (error) {
+    console.error("❌ Erro ao buscar imagem do álbum:", error);
+    return null;
+  }
+}
+
+async function getAudioPreview(trackName, artistName) {
+  //usando API do Deezer
+  try {
+    const response = await axios.get(
+      `https://api.deezer.com/search?q=${encodeURIComponent(
+        `${trackName} ${artistName}`
+      )}&limit=1`
+    );
+
+    const track = response.data.data[0]; // Pega a primeira música retornada
 
     if (!track) {
       console.log(
-        `⚠️ Música "${trackName}" de "${artistName}" não encontrada no Spotify.`
+        `⚠️ Nenhuma prévia encontrada para "${trackName}" de ${artistName}`
       );
-      return { image: null, preview_url: null };
+      return null;
     }
 
-    return {
-      image: track.album.images[0]?.url || null,
-      preview_url: track.preview_url || null,
-    };
+    return track.preview || null;
   } catch (error) {
-    console.error("❌ Erro ao buscar detalhes da música:", error);
-    return { image: null, preview_url: null };
+    console.error(`❌ Erro ao buscar preview da música "${trackName}"`, error);
+    return null;
   }
 }
 
-async function updateSongsArray() {
-  const token = await getSpotifyToken();
+// 🔹 Atualiza apenas `songs.js` com capas de álbuns
+async function updateSongsArray(token) {
+  if (!token) return;
+  const newsongsArray = cleanSongsArray();
+
   const updatedSongs = [];
+  let id = 1;
+  for (let song of newsongsArray) {
+    song.image = await getAlbumCover(song.name, song.artist, token);
+    song.audio = await getAudioPreview(song.name, song.artist);
 
-  for (let song of songsArray) {
-    const trackData = await getTrackDetails(song.name, token);
-    updatedSongs.push({
-      ...song,
-      image: trackData.image,
-      audio: trackData.preview_url,
-    });
-    console.log(
-      `✅ ${song.name} -> ${trackData.image} | 🎵 ${trackData.preview_url}`
-    );
+    if (song.image && song.audio) {
+      song.id = id;
+      updatedSongs.push(song); // Adiciona apenas se ambos não forem null
+      id++;
+    }
   }
 
-  // Formata os dados corretamente
-  const fileContent = `export const songsArray = ${JSON.stringify(
-    updatedSongs,
-    null,
-    2
-  )};`;
+  const formatSongsArray = (songs) => {
+    //formata o array
+    return `export const songsArray = [\n  ${songs
+      .map(
+        (song) => `{
+      id: ${song.id},
+      image: "${song.image}",
+      name: "${song.name}",
+      duration: "${song.duration}",
+      artist: "${song.artist}",
+      audio: "${song.audio}"
+    }`
+      )
+      .join(",\n  ")}
+  \n];`;
+  };
 
-  // Salva o arquivo na mesma pasta do script
-  fs.writeFileSync("./songs.js", fileContent, "utf8");
+  // 🔹 Salva `songs.js`
+  //fs.writeFileSync(
+  //  "./songs.js",
+  //  `export const songsArray = ${JSON.stringify(updatedSongs, null, 2)};`,
+  //  "utf8"
+  //);
 
-  console.log("✅ Arquivo 'songs.js' atualizado com imagens e prévias!");
+  fs.writeFileSync("./songs.js", formatSongsArray(updatedSongs), "utf8");
+
+  console.log("✅ Arquivo 'songs.js' atualizado!");
 }
 
-//TEST
+// 🔹 Busca informações dos artistas para `artists.js`
+async function updateArtistsArray(token) {
+  if (!token) return;
 
-getTrackDetails("Song 2", "Blur", testtoken)
-  .then(({ image, preview_url }) => {
-    console.log(`📷 Imagem da música "Song 2": ${image}`);
-    console.log(
-      `🎵 Preview URL: ${preview_url || "🔴 Sem preview disponível"}`
-    );
-  })
-  .catch((error) => console.error("❌ Erro ao buscar detalhes:", error));
+  const updatedArtists = [];
 
-//updateSongsArray();
+  for (let artist of artistsArray) {
+    try {
+      const response = await axios.get(
+        `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+          artist.name
+        )}&type=artist&limit=1`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const artistData = response.data.artists.items[0];
+      if (!artistData) {
+        console.log(`⚠️ Artista "${artist.name}" não encontrado.`);
+        updatedArtists.push(artist); // Mantém o artista original se não encontrar
+        continue;
+      }
+
+      updatedArtists.push({
+        ...artist, // Mantém ID e nome original
+        image: artistData.images[1]?.url || artist.image, // Atualiza se disponível
+        banner: artistData.images[0]?.url || artist.banner, // Atualiza se disponível
+      });
+
+      console.log(
+        `✅ ${artist.name} -> 🖼️ ${artistData.images[1]?.url} | 🎤 ${artistData.images[0]?.url}`
+      );
+    } catch (error) {
+      console.error(`❌ Erro ao buscar informações de ${artist.name}:`, error);
+      updatedArtists.push(artist); // Mantém o artista original caso dê erro
+    }
+  }
+
+  // 🔹 Salva `artists.js`
+  fs.writeFileSync(
+    "./artists.js",
+    `export const artistsArray = ${JSON.stringify(updatedArtists, null, 2)};`,
+    "utf8"
+  );
+
+  console.log("✅ Arquivo 'artists.js' atualizado com imagens e banners!");
+}
+
+const token = await getSpotifyToken();
+
+// 🚀 artistas
+//updateArtistsArray(token);
+
+// 🚀 músicas
+updateSongsArray(token);

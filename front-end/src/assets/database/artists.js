@@ -36,7 +36,7 @@ export const artistsArray = [
   {
     id: 6,
     image: "https://i.scdn.co/image/ab6761610000e5ebe7c9399d0b5d813c20cbec65",
-    name: "Bring me the Horizon",
+    name: "Bring Me The Horizon",
     banner:
       "https://www.billboard.com/wp-content/uploads/media/bring-me-the-horizon-2018-cr-pretty-puke-billboard-1548.jpg",
   },

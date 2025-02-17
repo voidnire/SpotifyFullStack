@@ -562,7 +562,7 @@ export const songsArray = [
     image: "https://i.scdn.co/image/ab67616d0000b27360cf7c8dd93815ccd6cb4830",
     name: "Sleepwalking",
     duration: "3:50",
-    artist: "Bring Me The Horizon",
+    artist: "Bring Me the Horizon",
     audio:
       "https://cdnt-preview.dzcdn.net/api/1/1/c/0/1/0/c015c323d049ae6f0e0ad760118a961d.mp3?hdnea=exp=1739814062~acl=/api/1/1/c/0/1/0/c015c323d049ae6f0e0ad760118a961d.mp3*~data=user_id=0,application_id=42~hmac=48e8673ef0537ec46c803e8738e175fb25c8d87ebe7da10a6f595f2760cdab4b",
   },
@@ -571,7 +571,7 @@ export const songsArray = [
     image: "https://i.scdn.co/image/ab67616d0000b273413697269620e16f4466f543",
     name: "Throne",
     duration: "3:11",
-    artist: "Bring Me The Horizon",
+    artist: "Bring Me the Horizon",
     audio:
       "https://cdnt-preview.dzcdn.net/api/1/1/5/9/f/0/59faf007d58cf5aa5265cdf91eb703a7.mp3?hdnea=exp=1739814063~acl=/api/1/1/5/9/f/0/59faf007d58cf5aa5265cdf91eb703a7.mp3*~data=user_id=0,application_id=42~hmac=532259aa9eab7214da887eb3873d8436bec417cfa45a9f4595c1d2bef53af3c7",
   },
@@ -580,7 +580,7 @@ export const songsArray = [
     image: "https://i.scdn.co/image/ab67616d0000b273413697269620e16f4466f543",
     name: "Drown",
     duration: "3:42",
-    artist: "Bring Me The Horizon",
+    artist: "Bring Me the Horizon",
     audio:
       "https://cdnt-preview.dzcdn.net/api/1/1/9/b/9/0/9b92e3267e85d62c3b21e89ac5df3c87.mp3?hdnea=exp=1739814064~acl=/api/1/1/9/b/9/0/9b92e3267e85d62c3b21e89ac5df3c87.mp3*~data=user_id=0,application_id=42~hmac=8275df0c50563b60e80d2da628b43f804739c556201733910eec703df0539b6b",
   },
@@ -589,7 +589,7 @@ export const songsArray = [
     image: "https://i.scdn.co/image/ab67616d0000b27360cf7c8dd93815ccd6cb4830",
     name: "Shadow Moses",
     duration: "4:02",
-    artist: "Bring Me The Horizon",
+    artist: "Bring Me the Horizon",
     audio:
       "https://cdnt-preview.dzcdn.net/api/1/1/8/e/d/0/8ed291b372d2e3ae654124e39f60658d.mp3?hdnea=exp=1739814064~acl=/api/1/1/8/e/d/0/8ed291b372d2e3ae654124e39f60658d.mp3*~data=user_id=0,application_id=42~hmac=c31c2ede7fd13091873d49a70ab4b9258a81fa4c74dc3538cf7b3d34b1c2e1fa",
   },
@@ -598,7 +598,7 @@ export const songsArray = [
     image: "https://i.scdn.co/image/ab67616d0000b273413697269620e16f4466f543",
     name: "Follow You",
     duration: "3:51",
-    artist: "Bring Me The Horizon",
+    artist: "Bring Me the Horizon",
     audio:
       "https://cdnt-preview.dzcdn.net/api/1/1/5/2/d/0/52d4ccdf4e4c4605bab51b78896913dc.mp3?hdnea=exp=1739814065~acl=/api/1/1/5/2/d/0/52d4ccdf4e4c4605bab51b78896913dc.mp3*~data=user_id=0,application_id=42~hmac=542e578bda43d6f27cd9d44f97f40708654a5ec9667a0793d9d60d0971f18076",
   },
@@ -607,7 +607,7 @@ export const songsArray = [
     image: "https://i.scdn.co/image/ab67616d0000b27349e3b7e85829da2fbc68bc46",
     name: "Mantra",
     duration: "3:54",
-    artist: "Bring Me The Horizon",
+    artist: "Bring Me the Horizon",
     audio:
       "https://cdnt-preview.dzcdn.net/api/1/1/e/7/1/0/e710b39d7269e27cfdaae3e1d48e701c.mp3?hdnea=exp=1739814065~acl=/api/1/1/e/7/1/0/e710b39d7269e27cfdaae3e1d48e701c.mp3*~data=user_id=0,application_id=42~hmac=a45351751fad97f1f867fe4b08e37f324014ae89175cf1a337aa4570173f26f1",
   },
@@ -616,7 +616,7 @@ export const songsArray = [
     image: "https://i.scdn.co/image/ab67616d0000b2735149c948fde506624246a684",
     name: "Teardrops",
     duration: "3:35",
-    artist: "Bring Me The Horizon",
+    artist: "Bring Me the Horizon",
     audio:
       "https://cdnt-preview.dzcdn.net/api/1/1/7/7/5/0/7756d53e680633394694b903b50eab87.mp3?hdnea=exp=1739814066~acl=/api/1/1/7/7/5/0/7756d53e680633394694b903b50eab87.mp3*~data=user_id=0,application_id=42~hmac=73b5aaec91f86d6b086074af8daec9b6f82af6b55156aa63cb9c8318cef86d8e",
   },
@@ -625,7 +625,7 @@ export const songsArray = [
     image: "https://i.scdn.co/image/ab67616d0000b2735149c948fde506624246a684",
     name: "Obey",
     duration: "3:41",
-    artist: "Bring Me The Horizon",
+    artist: "Bring Me the Horizon",
     audio:
       "https://cdnt-preview.dzcdn.net/api/1/1/2/f/0/0/2f09514e94659ee510291981899e45f1.mp3?hdnea=exp=1739814066~acl=/api/1/1/2/f/0/0/2f09514e94659ee510291981899e45f1.mp3*~data=user_id=0,application_id=42~hmac=805f54ab67d9e258a8d22370c9d239cc6d1468f932230fe30b9d7e4461485029",
   },
