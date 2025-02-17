@@ -1,4 +1,4 @@
-export const artistsArray = [
+/*export const artistsArray = [
   {
     id: 1,
     image: "https://i.scdn.co/image/ab6761610000e5eb29af2ffb6f4ddd6324f878bc",
@@ -126,4 +126,7 @@ export const artistsArray = [
     name: "David Bowie",
     banner: "https://i.scdn.co/image/ab6742d3000053b7a0f1fc79158ba7b73b5ef132",
   },
-];
+];*/
+
+import { artistsArray } from "../../../api/api.js";
+export { artistsArray };

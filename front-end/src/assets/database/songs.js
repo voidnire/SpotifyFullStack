@@ -1,4 +1,4 @@
-export const songsArray = [
+/*export const songsArray = [
   {
     id: 1,
     image: "https://i.scdn.co/image/ab67616d0000b27350d216aebaf98e8ac9947fd5",
@@ -1304,4 +1304,7 @@ export const songsArray = [
     audio:
       "https://cdnt-preview.dzcdn.net/api/1/1/a/3/4/0/a34432d3c61d086fb842ed5202338e95.mp3?hdnea=exp=1739814118~acl=/api/1/1/a/3/4/0/a34432d3c61d086fb842ed5202338e95.mp3*~data=user_id=0,application_id=42~hmac=30d9493a066aa84ea97759e2eeb04661a98c17205d28ba0de10ab2fba0ff5610",
   },
-];
+];*/
+
+import { songsArray } from "../../../api/api.js";
+export { songsArray };

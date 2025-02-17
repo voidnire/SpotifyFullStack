@@ -85,6 +85,8 @@ async function getAudioPreview(trackName, artistName) {
 
     const track = response.data.data[0]; // Pega a primeira música retornada
 
+    //console.log(track);
+
     if (!track) {
       console.log(
         `⚠️ Nenhuma prévia encontrada para "${trackName}" de ${artistName}`
@@ -198,5 +200,5 @@ const token = await getSpotifyToken();
 // 🚀 artistas
 //updateArtistsArray(token);
 
-// 🚀 músicas
+//🚀 músicas
 updateSongsArray(token);
