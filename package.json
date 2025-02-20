@@ -9,6 +9,7 @@
     "start": "concurrently \"npm start --prefix back-end\" \"npm start --prefix front-end\""
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "gh-pages": "^6.3.0"
   }
 }
