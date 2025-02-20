@@ -79,6 +79,17 @@ const Player = ({
     return () => clearInterval(interval);
   }, [audioDuration, isPlaying]);
 
+  //PARAR A MÚSICA AO MUDAR
+  useEffect(() => {
+    if (audioPlayer.current) {
+      audioPlayer.current.pause(); // Para a música atual
+      audioPlayer.current.currentTime = 0; // Reseta o tempo da música
+      setIsPlaying(false); // Define o estado como pausado
+    }
+  }, [audio]); // Dispara quando o caminho do áudio muda
+
+  // PARAR A MÚSICA E REINICIAR SE NECESSÁRIO
+
   return (
     <div className="player">
       <div className="player__controllers">

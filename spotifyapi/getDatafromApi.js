@@ -2,9 +2,12 @@ import { songsArray } from "../front-end/src/assets/database/songs.js";
 import { artistsArray } from "../front-end/src/assets/database/artists.js";
 import axios from "axios";
 import fs from "fs";
+import dotenv from "dotenv";
 
-const client_id = "93e500cd865a497d90d4daf5df74ffc9";
-const client_secret = "6d02c91d5e044f98b5f9dc410c5efe93";
+dotenv.config();
+
+const client_id = process.env.CLIENT_ID;
+const client_secret = process.env.CLIENT_SECRET;
 
 // 🔹 Função para obter o token do Spotify
 async function getSpotifyToken() {
@@ -85,8 +88,6 @@ async function getAudioPreview(trackName, artistName) {
 
     const track = response.data.data[0]; // Pega a primeira música retornada
 
-    //console.log(track);
-
     if (!track) {
       console.log(
         `⚠️ Nenhuma prévia encontrada para "${trackName}" de ${artistName}`
@@ -101,7 +102,7 @@ async function getAudioPreview(trackName, artistName) {
   }
 }
 
-// 🔹 Atualiza apenas `songs.js` com capas de álbuns
+// Atualiza apenas `songs.js` com capas de álbuns
 async function updateSongsArray(token) {
   if (!token) return;
   const newsongsArray = cleanSongsArray();
@@ -136,19 +137,12 @@ async function updateSongsArray(token) {
   \n];`;
   };
 
-  // 🔹 Salva `songs.js`
-  //fs.writeFileSync(
-  //  "./songs.js",
-  //  `export const songsArray = ${JSON.stringify(updatedSongs, null, 2)};`,
-  //  "utf8"
-  //);
-
   fs.writeFileSync("./songs.js", formatSongsArray(updatedSongs), "utf8");
 
   console.log("✅ Arquivo 'songs.js' atualizado!");
 }
 
-// 🔹 Busca informações dos artistas para `artists.js`
+// Busca informações dos artistas para `artists.js`
 async function updateArtistsArray(token) {
   if (!token) return;
 
@@ -201,4 +195,4 @@ const token = await getSpotifyToken();
 //updateArtistsArray(token);
 
 //🚀 músicas
-updateSongsArray(token);
+//updateSongsArray(token);

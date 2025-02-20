@@ -2,6 +2,13 @@
   "type": "module",
   "dependencies": {
     "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
     "mongodb": "^6.13.0"
+  },
+  "scripts": {
+    "start": "concurrently \"npm start --prefix back-end\" \"npm start --prefix front-end\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }

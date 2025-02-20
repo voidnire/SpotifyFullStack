@@ -3,7 +3,11 @@ import cors from "cors";
 import { db } from "./connect.js";
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3002;
+
+app.listen(PORT, () =>
+  console.log(`🚀 API rodando em http://localhost:${PORT}`)
+);
 
 app.use(cors());
 
@@ -16,8 +20,4 @@ app.get("/artists", async (request, response) => {
 
 app.get("/songs", async (request, response) => {
   response.send(await db.collection("songs").find({}).toArray());
-});
-
-app.listen(PORT, () => {
-  console.log(`Servidor está escutando na porta ${PORT}`);
 });
